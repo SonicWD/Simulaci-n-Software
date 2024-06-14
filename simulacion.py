@@ -1,15 +1,16 @@
 import simpy
 import random
 import pandas as pd
+import sys
 
 # Parámetros de la simulación
-TIEMPO_LLEGADA_TAREAS = 5  # Tiempo promedio entre llegadas de tareas (en minutos)
-TIEMPO_PLANIFICACION = 2  # Tiempo para planificar una tarea (en minutos)
-TIEMPO_DESARROLLO = (10, 30)  # Rango de tiempo para desarrollar una tarea (en minutos)
-TIEMPO_REVISION = 5  # Tiempo para revisar el código (en minutos)
-TIEMPO_PRUEBAS = (5, 15)  # Rango de tiempo para probar una tarea (en minutos)
-TIEMPO_DESPLIEGUE = 3  # Tiempo para desplegar una tarea (en minutos)
-DURACION_SIMULACION = 480  # Duración de la simulación (en minutos)
+TIEMPO_LLEGADA_TAREAS = float(sys.argv[1])
+TIEMPO_PLANIFICACION = float(sys.argv[2])
+TIEMPO_DESARROLLO = (float(sys.argv[3]), float(sys.argv[4]))
+TIEMPO_REVISION = float(sys.argv[5])
+TIEMPO_PRUEBAS = (float(sys.argv[6]), float(sys.argv[7]))
+TIEMPO_DESPLIEGUE = float(sys.argv[8])
+DURACION_SIMULACION = float(sys.argv[9])
 
 # Recursos del equipo
 NUM_PLANIFICADORES = 1

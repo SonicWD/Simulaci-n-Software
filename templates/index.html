@@ -1,12 +1,171 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulación de Desarrollo de Software</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="{{ url_for('static', filename='/static/plot.js') }}"></script>
 </head>
 <body>
-    <h1>Simulación de Desarrollo de Software</h1>
-    <div id="graph"></div>
+    <div class="container">
+        <header>
+            <h1>Simulación de Desarrollo de Software</h1>
+        </header>
+        <main>
+            <section class="project-description">
+                <h2>Propósito del Proyecto</h2>
+                <p>El propósito de este proyecto es simular y analizar el proceso de desarrollo de software en un equipo Agile. La simulación permitirá identificar cuellos de botella y optimizar el flujo de trabajo, mejorando la eficiencia y reduciendo el tiempo de ciclo de las tareas.</p>
+                
+                <h2>Avance del Proyecto</h2>
+                <p>Hasta ahora, hemos implementado la simulación del proceso de desarrollo de software utilizando SimPy, una biblioteca de Python para simulaciones de eventos discretos. Los resultados de la simulación se almacenan en un archivo CSV y hemos comenzado a desarrollar una aplicación web con Flask y Plotly para visualizar los datos.</p>
+                
+                <h2>Consideraciones para la Simulación</h2>
+                <ol>
+                    <li><strong>Objetivo del Proyecto:</strong>
+                        <ul>
+                            <li>Simular el proceso de desarrollo de software para identificar ineficiencias.</li>
+                            <li>Visualizar los tiempos de ciclo de las tareas para entender mejor el flujo de trabajo.</li>
+                        </ul>
+                    </li>
+                    <li><strong>El Problema Planteado:</strong>
+                        <ul>
+                            <li><strong>Variables:</strong>
+                                <ul>
+                                    <li>Tiempo de llegada de las tareas.</li>
+                                    <li>Tiempos de procesamiento en cada etapa (planificación, desarrollo, revisión, pruebas, despliegue).</li>
+                                    <li>Número de recursos disponibles en cada etapa.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lógica del Negocio:</strong>
+                                <ul>
+                                    <li>Las tareas llegan a intervalos aleatorios.</li>
+                                    <li>Cada tarea pasa por varias etapas secuenciales.</li>
+                                    <li>Cada etapa tiene recursos limitados que pueden formar cuellos de botella.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Limitaciones:</strong>
+                                <ul>
+                                    <li>Recursos limitados en cada etapa.</li>
+                                    <li>Variabilidad en los tiempos de procesamiento debido a la naturaleza aleatoria de las tareas.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><strong>Hipótesis a Demostrar:</strong>
+                        <ul>
+                            <li>Hipótesis 1: Aumentar el número de desarrolladores reducirá significativamente el tiempo de ciclo de las tareas.</li>
+                            <li>Hipótesis 2: Identificar la etapa con el mayor tiempo de espera permitirá optimizar los recursos y mejorar el flujo general.</li>
+                            <li>Hipótesis 3: Implementar más revisores y testers reducirá el tiempo de espera en las etapas de revisión y pruebas, lo que mejorará la eficiencia del proceso.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </section>
+    
+        <main>
+            <div class="sim-container">
+                <div class="form-container">
+                    <form id="simulation-form" class="form">
+                        <h2>Parámetros de la Simulación</h2>
+                        <div class="form-group">
+                            <label for="TIEMPO_LLEGADA_TAREAS" title="Tiempo promedio entre la llegada de nuevas tareas.">Tiempo de Llegada Tareas:</label>
+                            <input type="number" step="1" name="TIEMPO_LLEGADA_TAREAS" id="TIEMPO_LLEGADA_TAREAS" value="{{ params.TIEMPO_LLEGADA_TAREAS }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="TIEMPO_PLANIFICACION" title="Tiempo que se tarda en planificar una nueva tarea.">Tiempo de Planificación:</label>
+                            <input type="number" step="1" name="TIEMPO_PLANIFICACION" id="TIEMPO_PLANIFICACION" value="{{ params.TIEMPO_PLANIFICACION }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="TIEMPO_DESARROLLO_MIN" title="Tiempo mínimo requerido para desarrollar una tarea.">Tiempo de Desarrollo Mínimo:</label>
+                            <input type="number" step="1" name="TIEMPO_DESARROLLO_MIN" id="TIEMPO_DESARROLLO_MIN" value="{{ params.TIEMPO_DESARROLLO_MIN }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="TIEMPO_DESARROLLO_MAX" title="Tiempo máximo requerido para desarrollar una tarea.">Tiempo de Desarrollo Máximo:</label>
+                            <input type="number" step="1" name="TIEMPO_DESARROLLO_MAX" id="TIEMPO_DESARROLLO_MAX" value="{{ params.TIEMPO_DESARROLLO_MAX }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="TIEMPO_REVISION" title="Tiempo que se tarda en revisar una tarea desarrollada.">Tiempo de Revisión:</label>
+                            <input type="number" step="1" name="TIEMPO_REVISION" id="TIEMPO_REVISION" value="{{ params.TIEMPO_REVISION }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="TIEMPO_PRUEBAS_MIN" title="Tiempo mínimo requerido para realizar pruebas en una tarea.">Tiempo de Pruebas Mínimo:</label>
+                            <input type="number" step="1" name="TIEMPO_PRUEBAS_MIN" id="TIEMPO_PRUEBAS_MIN" value="{{ params.TIEMPO_PRUEBAS_MIN }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="TIEMPO_PRUEBAS_MAX" title="Tiempo máximo requerido para realizar pruebas en una tarea.">Tiempo de Pruebas Máximo:</label>
+                            <input type="number" step="1" name="TIEMPO_PRUEBAS_MAX" id="TIEMPO_PRUEBAS_MAX" value="{{ params.TIEMPO_PRUEBAS_MAX }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="TIEMPO_DESPLIEGUE" title="Tiempo que se tarda en desplegar una tarea completada.">Tiempo de Despliegue:</label>
+                            <input type="number" step="1" name="TIEMPO_DESPLIEGUE" id="TIEMPO_DESPLIEGUE" value="{{ params.TIEMPO_DESPLIEGUE }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="DURACION_SIMULACION" title="Duración total de la simulación en minutos.">Duración de la Simulación:</label>
+                            <input type="number" step="1" name="DURACION_SIMULACION" id="DURACION_SIMULACION" value="{{ params.DURACION_SIMULACION }}" required>
+                        </div>
+                        <button id="startSimulationButton" type="button">Ejecutar Simulación</button>
+                    </form>
+                </div>
+                <div class="container">
+                <div class="graph-container">
+                    <div id="graph"></div>
+                </div>
+                </div>
+                <div class="container">
+                <div class="result-explanation">
+                    <h2>Cómo interpretar los resultados:</h2>
+                    <p>Los tiempos de ciclo representan el tiempo total que una tarea tarda desde su llegada hasta su despliegue.</p>
+                    <p>El gráfico de dispersión muestra los tiempos de ciclo de cada tarea, permitiendo identificar patrones y variaciones en el proceso de desarrollo de software.</p>
+                </div>
+                </div>
+                <div class="container">
+                    <h2>Interpretación Detallada de los Resultados:</h2>
+                    <p>Los parámetros predeterminados para la simulación del proceso de desarrollo de software proporcionan insights valiosos sobre el flujo de trabajo y la eficiencia del equipo Agile. Con un tiempo promedio de llegada de nuevas tareas de 5 minutos, el equipo enfrenta un flujo constante de trabajo que puede generar congestión si no se gestionan adecuadamente los recursos.</p>
+                    
+                    <p>Durante la simulación, se observó que el tiempo de planificación, fijo en 2 minutos, actúa como un punto de control inicial crucial para organizar el trabajo entrante. Sin embargo, el tiempo de desarrollo varía significativamente, con tareas que pueden completarse en cualquier lugar entre 10 y 30 minutos. Esta variabilidad puede influir en la capacidad del equipo para cumplir con los plazos y afectar directamente el tiempo total de ciclo de las tareas.</p>
+                    
+                    <p>La fase de revisión, que consume un tiempo fijo de 5 minutos por tarea, asegura la calidad del código desarrollado antes de pasar a las pruebas. Las pruebas, que varían entre 5 y 15 minutos por tarea, representan otro punto crítico donde las tareas pueden acumularse si los recursos de testing no son suficientes.</p>
+                    
+                    <p>Finalmente, el despliegue de las tareas, con un tiempo fijo de 3 minutos, cierra el ciclo de desarrollo y prepara el software para su implementación.</p>
+                    
+                    <p>Al analizar los datos de la simulación, se identificaron períodos de congestión en las etapas de desarrollo y pruebas, indicando posibles cuellos de botella donde la asignación óptima de recursos podría mejorar significativamente la eficiencia del proceso. Estos resultados subrayan la importancia de ajustar dinámicamente los recursos según la carga de trabajo y la complejidad de las tareas, con el objetivo de minimizar el tiempo total de ciclo y mejorar la capacidad de respuesta del equipo Agile.</p>
+                </div>
+                <h1>Conclusiones de la Simulación de Desarrollo de Software</h1>
+                <section>
+                    <h2>Conclusiones</h2>
+                    <p><strong>1. Identificación de Ineficiencias y Optimización del Flujo de Trabajo:</strong></p>
+                    <ul>
+                        <li>La simulación permitió identificar cuellos de botella en diferentes etapas del proceso de desarrollo de software.</li>
+                        <li>Permitió optimizar el flujo de trabajo mejorando la eficiencia y reduciendo el tiempo de ciclo de las tareas.</li>
+                    </ul>
+    
+                    <p><strong>2. Variabilidad y Gestión de Recursos:</strong></p>
+                    <ul>
+                        <li>Se observó variabilidad en los tiempos de procesamiento de las tareas, lo cual afecta directamente el tiempo total de ciclo.</li>
+                        <li>La asignación adecuada de recursos en cada etapa es crucial para minimizar los tiempos de espera y mejorar la eficiencia del proceso.</li>
+                    </ul>
+    
+                    <p><strong>3. Impacto de Decisiones Estratégicas:</strong></p>
+                    <ul>
+                        <li>Se probaron hipótesis como aumentar el número de desarrolladores, revisores y testers para mejorar la eficiencia del proceso.</li>
+                        <li>Los resultados demostraron que ajustar dinámicamente los recursos según la carga de trabajo puede optimizar el flujo de trabajo y la capacidad de respuesta del equipo Agile.</li>
+                    </ul>
+                </section>
+    
+                <section>
+                    <h2>Relación con la Simulación de Colas</h2>
+                    <p>La simulación de desarrollo de software se relaciona con la teoría de simulación de colas en los siguientes aspectos:</p>
+                    <ul>
+                        <li><strong>Modelado de Llegadas y Servicios:</strong> Similar a cómo los clientes llegan a un sistema de colas para recibir servicio, las tareas llegan a diferentes etapas de desarrollo.</li>
+                        <li><strong>Tiempo de Servicio y Variabilidad:</strong> La variabilidad en los tiempos de procesamiento de las tareas refleja la variabilidad en el tiempo de servicio en sistemas de colas.</li>
+                        <li><strong>Optimización y Mejora del Sistema:</strong> Al igual que en la simulación de colas, la simulación de desarrollo de software permite probar estrategias para optimizar la eficiencia del sistema.</li>
+                    </ul>
+                </section>
+                </div>
+                
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='plot.js') }}"></script>
 </body>
 </html>

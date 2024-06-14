@@ -1,0 +1,70 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    max-width: 1200px; /* Aumentamos el ancho del contenedor principal */
+
+    margin: 20px auto; /* Centramos el contenedor en la página */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1, h2, h3 {
+    color: #333;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+.sim-container {
+    display: flex; /* Utilizamos flexbox para organizar los elementos */
+    flex-wrap: wrap; /* Permitimos que los elementos puedan envolverse en dispositivos más pequeños */
+}
+
+.parameters-container {
+    flex: 1; /* El contenedor de variables ocupa 1/3 del espacio */
+    margin-right: 20px; /* Espacio entre el contenedor de variables y el formulario */
+}
+
+.simulation-container {
+    flex: 2; /* El contenedor de simulación ocupa 2/3 del espacio */
+    display: flex;
+    flex-direction: column;
+}
+/* Estilo para los labels dentro de form-group */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    cursor: pointer; /* Cambia el cursor al puntero cuando se pase sobre el label */
+    transition: color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+/* Efecto hover */
+.form-group label:hover {
+    color: #007bff; /* Cambia el color del texto al azul cuando se hace hover */
+}
+
+
+.result-explanation {
+    margin-top: 20px;
+}
+
+.graph-container {
+    width: 100%; /* El gráfico ocupa todo el ancho disponible */
+    text-align: center;
+}
