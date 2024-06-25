@@ -3,7 +3,7 @@ import pandas as pd  # Importar Pandas para manejo de datos
 import simpy  # Importar SimPy para la simulación de eventos discretos
 import random  # Importar Random para generación de números aleatorios
 
-app = Flask(__name__)  # Crear una instancia de la aplicación Flask
+app = Flask(__name__)  # Crear una instancia de la aplicación Flask saque 80 lptm
 
 # Parámetros predeterminados para la simulación
 DEFAULT_PARAMS = {
