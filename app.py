@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify, request  
-import pandas as pd  # Importar Pandas para manejo de datos
-import simpy  # Importar SimPy para la simulación de eventos discretos
-import random  # Importar Random para generación de números aleatorios
+import pandas as pd  
+import simpy  
+import random 
 
 app = Flask(__name__)  # Crear una instancia de la aplicación Flask saque 80 lptm
 
@@ -40,9 +40,9 @@ def run_simulation(params):
     TIEMPO_DESPLIEGUE = params['TIEMPO_DESPLIEGUE']
     DURACION_SIMULACION = params['DURACION_SIMULACION']
 
-    env = simpy.Environment()  # Crear el entorno de simulación de SimPy
+    env = simpy.Environment() 
     planificadores = simpy.Resource(env, 1)  # Recurso para la planificación
-    desarrolladores = simpy.Resource(env, 3)  # Recurso para el desarrollo (3 desarrolladores)
+    desarrolladores = simpy.Resource(env, 3)  # Recurso para el desarrollo se puede cambiar(3 desarrolladores)
     revisores = simpy.Resource(env, 1)  # Recurso para la revisión
     testers = simpy.Resource(env, 2)  # Recurso para las pruebas (2 testers)
     desplegadores = simpy.Resource(env, 1)  # Recurso para el despliegue

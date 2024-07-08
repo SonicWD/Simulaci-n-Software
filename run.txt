@@ -1,2 +1,6 @@
  .\.venv\Scripts\activate  
  python app.py  
+
+
+
+ python simulacion.py 10 2 10 30 5 5 15 3 100
